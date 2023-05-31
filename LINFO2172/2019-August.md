@@ -23,3 +23,8 @@ see ![1.jpg](2019-August/1.jpg)
 I need to evaluate the count function.
 see [evaluating.sql](evaluating.sql)
 
+> The test database's person's relation can be found [relation.jpg](2019-August/relation.jpg)
+
+Answer:
+
+![2.jpg](2019-August/2.jpg)
