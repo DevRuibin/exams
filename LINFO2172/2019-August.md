@@ -28,3 +28,15 @@ see [evaluating.sql](evaluating.sql)
 Answer:
 
 ![2.jpg](2019-August/2.jpg)
+
+### **3**
+
+```sql
+select child_id as p1, parent_id as p2
+from ChildOf
+union
+select child_id as p1, parent_id as p2
+from childOf,
+     childOf as C
+where parent_id = C.child_id;
+```
