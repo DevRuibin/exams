@@ -95,4 +95,26 @@ To obtain an equivalent algorithm that is more efficient.
    $$L \leftarrow \pi_{lid} (\sigma_{country="Belgium"}(Location) $$
    $$T \leftarrow  (L \Join_{lid=location_id} PE) $$
    $$S \leftarrow T $$
-   
+
+### **7**
+
+```sql
+select COUNT(DISTINCT p.pid)
+from Location L,
+     Event E,
+     Person P
+where L.lname = "Torgny"
+  And E.location_id = L.lid
+  and E.person.id = P.person
+  And P.gender = "male"
+```
+
+1. Location Table:
+    - `lname`. This index helps locate the rows with the desired location name.
+    - `lid`. This index speeds up the join operation between the Location and Event tables.
+2. Person Table:
+    - `gender`. This index allows for efficient filtering based on the gender condition.
+    - `pid`. This index speeds up the join operation between the Person and Event tables.
+
+> Note: We assume that the Event table's size is smaller than the Location and Person tables' sizes, so
+> DBMS will scan the Event table and perform the join operation with the other two tables.
