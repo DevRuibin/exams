@@ -110,11 +110,94 @@ where L.lname = "Torgny"
 ```
 
 1. Location Table:
-    - `lname`. This index helps locate the rows with the desired location name.
-    - `lid`. This index speeds up the join operation between the Location and Event tables.
+   - `lname`. This index helps locate the rows with the desired location name.
+   - `lid`. This index speeds up the join operation between the Location and Event tables.
 2. Person Table:
-    - `gender`. This index allows for efficient filtering based on the gender condition.
-    - `pid`. This index speeds up the join operation between the Person and Event tables.
+   - `gender`. This index allows for efficient filtering based on the gender condition.
+   - `pid`. This index speeds up the join operation between the Person and Event tables.
 
 > Note: We assume that the Event table's size is smaller than the Location and Person tables' sizes, so
 > DBMS will scan the Event table and perform the join operation with the other two tables.
+
+## **Part 2**
+
+### **8**
+
+Answer: A
+
+### **9**
+
+> This question's type is very unfamiliar to me, so skip it.
+
+### **10**
+
+**Explanation:**
+
+*A*
+
+**Sufficient condition:**
+
+AB -> CDE => AB - C
+DE -> AC => DE - A
+
+**Necessary condition:**
+
+We can't prove AB -> CDE, so there is no necessary condition.
+
+**B**
+
+**Sufficient condition:**
+
+OK
+
+**Necessary condition:**
+
+We can't prove AB -> CDE, so there is no necessary condition.
+
+**C**
+
+**Sufficient condition:**
+
+We can't prove A -> DE, so there is no sufficient condition.
+
+**D**
+
+**Sufficient condition:**
+
+we can't prove A -> CDE, so there is no sufficient condition.
+
+**E**
+
+**Sufficient condition:**
+
+AC-> DE and C -> A => C -> ADE
+
+**Necessary condition:**
+
+AB -> C && C -> ADE => AB -> CDE
+C -> ADE => AC -> DE
+C -> ADE => C -> A
+
+> ==So the answer is E.==
+
+### **11**
+
+1. 1NF: Nested relations are not allowed.
+2. 2NF: Every non-prime attribute is fully functionally dependent on the primary key.
+   > An attribute is prime if it is part of the primary key.
+3. 3NF: A relation is in third normal form if and only if every nontrivial full functional dependency X -> A in R
+   - either X is a key
+   - or A is a prime attribute.
+4. BCNF: A relation is in Boys-Codd normal form iff every nontrivial full functional dependency X -> A in R, X is a key.
+
+**Explanation:**
+
+In this relation of this question, the candidate keys are AC and BC.
+
+A can not determine B or C, vice versa, so B is fully functionally dependent on the primary key AC, and C is fully
+functionally dependent on the primary key BC.
+
+> I think the relation is in BCNF.
+
+### **12**
+
