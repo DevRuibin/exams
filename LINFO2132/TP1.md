@@ -45,6 +45,8 @@ It stands for all binary numbers containing ast least two 0s.
 
 # Question 3
 
-**3.1**
+![answer for question 3](TP1/3.jpg)
 
-```
+**3.6**
+
+I don't understand what is power set.
