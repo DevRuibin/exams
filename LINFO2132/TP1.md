@@ -1,0 +1,35 @@
+> Based on the work of Tobias Lowenthal.
+
+# Question 1
+
+**1.1**
+
+1. type
+2. identifier
+3. operator
+4. number
+5. keyword
+6. special
+7. string
+8. whitespaceOrComment
+
+**1.2**
+
+```
+<type, int><whitespaceOrComment><identifier, x2><whitespaceOrComment>
+<operator, =><whitespaceOrComment><number, 25><special, ;><whitespaceOrComment>
+<keyword, while><special, (> 
+...
+<special, }><whitespaceOrComment>
+```
+
+**1.3**
+
+1. type : `int`
+2. identifier: `[a-zA-Z_][a-zA-Z0-9_]*`
+3. operator: `=|%|`
+4. number
+5. keyword
+6. special
+7. string
+8. whitespaceOrComment ``
