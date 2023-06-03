@@ -201,3 +201,24 @@ functionally dependent on the primary key BC.
 
 ### **12**
 
+If the memory is full, the DBMS will write the data to the disk before committing the transaction.
+
+so the answer is D.
+
+### **13**
+
+Answer: A, C
+
+see ![13.jpg](2019-August/13.jpg)
+
+### **14**
+
+Answer: C, D
+
+### **15**
+
+Answer: C, D, F
+
+### **16**
+
+Answer: A, B, D, E, F
