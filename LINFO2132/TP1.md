@@ -49,4 +49,11 @@ It stands for all binary numbers containing ast least two 0s.
 
 **3.6**
 
-I don't understand what is power set.
+The initial states are different between the two powerset construction methods.
+
+The method learned in class has a single initial state,
+while the method mentioned in this question has a set of initial states,
+which is the set of all states reachable from the initial state of the original NFA
+by following only epsilon transitions.
+
+![answer for question 3.6](TP1/3.6.jpg)
