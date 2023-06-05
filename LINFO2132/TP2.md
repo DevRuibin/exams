@@ -143,10 +143,15 @@ Match ):                            ( , , 125756458)
 **4.1**
 
 $$fist_1(ab) = \{a\}$$
+
 $$fist_1(ac) = \{a\}$$
+
 $$first_2(ab) = \{ab\}$$
+
 $$first_2(ac) = \{ac\}$$
+
 $$fist_1(ab) \cap first_1(ac) = \{a\} != \emptyset$$
+
 $$fist_2(ab) \cap first_2(ac) = \emptyset$$
 
 So the grammar is not LL(1), but it is LL(2).
