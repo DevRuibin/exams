@@ -50,9 +50,6 @@ B   → aBc | ac      // rule 5, 6
 | I12 |    |    |    |    |     |     |    |     | reduce 4 |
 | I13 |    |    |    |    |     |     |    |     | error    |
 
-**Evaluation**
-
-![evaluation](TP4/2.jpg)
 
 ## 2.2
 
@@ -83,6 +80,11 @@ For `aaacebb`
 |         | I0,I4,I7,I10    | 643   |
 |         | I0,I2           | 6433  |
 |         | I0,I1           | 64331 |
+
+**Evaluation**
+
+![evaluation](TP4/2.jpg)
+
 
 ## 2.4
 
