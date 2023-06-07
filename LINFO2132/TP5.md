@@ -294,3 +294,9 @@ body():
 done():
     return sum0
 ```
+
+# Question 3
+
+1. Create a control flow graph for the program
+2. Traverse the control flow graph to find all terminal nodes
+3. Check if all terminal nodes are return statements
