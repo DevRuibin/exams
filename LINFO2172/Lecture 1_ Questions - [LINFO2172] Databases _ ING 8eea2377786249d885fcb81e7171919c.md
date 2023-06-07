@@ -79,7 +79,9 @@ Abtraction of the schema of relations in the database: users don't always see th
 </aside>
 
 > Data abstraction concerns with hiding the overall complexities of data management, physical abstraction is specifically about abstracting away the details of the physical storage mechanisms.
-> 
+
+
+> the second statement is not entirely accurate because while an RDBMS does provide an abstraction of the database's schema, it's not about hiding the schema from users. Instead, it's about presenting the schema in a form that's easy for users to understand and work with, independent of the underlying physical storage details.
 
 ---
 
