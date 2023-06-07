@@ -42,14 +42,14 @@ Why the grammar is LL(1):
 
     $$la(R' -> RR') = \{a, b, (, \epsilon\}$$
 
-    $$la(R' -> *R') = \{*}$$
+    $$la(R' -> *R') = \{\*\}$$
 
     $$la(R' -> \epsilon) = \epsilon$$
 
     There is no intersections between the sets, so the grammar is LL(1).
 
 2. `T -> (R) | a | b`
-    $$la(T -> (R)) = \{(}$$
+    $$la(T -> (R)) = \{\emptyset\}$$
 
     $$la(T -> a) = \{a\}$$
 
