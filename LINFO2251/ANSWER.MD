@@ -313,21 +313,21 @@
                is impossible. So we introduce constraints to rule out impossible combinations and reduce the size of the
                test suite if it is too large.
 
-    10. Pairwise testing
+   10. Pairwise testing
 
-    It is a kind of category-partition testing but it uses a different methods when introducing constraints which is
-    called pairwise combination. It generate combinations that efficiently cover all pairs of choices. Because most
-    failures are triggered by single values or combinations of a few values.
+   It is a kind of category-partition testing but it uses a different methods when introducing constraints which is
+   called pairwise combination. It generate combinations that efficiently cover all pairs of choices. Because most
+   failures are triggered by single values or combinations of a few values.
 
-    11. N-way wise testing: similar to pairwise testing. Instead of focusing solely on pairs of parameters, N-way
-        testing aims to create test cases that cover all possible combinations of values for a specified number of
-        parameters (often denoted as "t"). This type of testing is often used when the number of inputs to the system is
-        relatively small, but there are too many combinations to test exhaustively.
+   11. N-way wise testing: similar to pairwise testing. Instead of focusing solely on pairs of parameters, N-way
+       testing aims to create test cases that cover all possible combinations of values for a specified number of
+       parameters (often denoted as "t"). This type of testing is often used when the number of inputs to the system is
+       relatively small, but there are too many combinations to test exhaustively.
 
-    12. Catalog-Based Testing: It is better that human judgment is used when deriving values classes. The catalog lists
-        important cases for each possible type of variable.
-        for example: integer variables:
-        1. The element immediately below the lower bound
+   12. Catalog-Based Testing: It is better that human judgment is used when deriving values classes. The catalog lists
+       important cases for each possible type of variable.
+       for example: integer variables:
+       1. The element immediately below the lower bound
         2. The lower bound
         3. A non-boundary value within the interval
         4. etc.
@@ -356,10 +356,72 @@
    and show some practical path coverage criteria. Define data flow coverage criteria. Discuss
    the problems of aliases and infeasibility.
 
+    1. Structural testing: requires that all paths are tested. The test criteria are based on the
+       structure of the program.
+    2. statement coverage:  it measures the number of executed statements in the source code out of the total
+       statements. The aim is to ensure that every line of code in the program has been executed at least once.
+    3. branch coverage: This type of testing goes a step beyond statement coverage. In addition to ensure that each line
+       of code has been executed, branch coverage tests each decision point in the source code. This ensure that both
+       the true and false branches have been executed at least once.
+    4. condition coverage; This extends branch coverage by ensuring that each Boolean expression expression has been
+       evaluated both to true and false.
+    5. compound condition and MC/DC coverage: Compound conditions are conditions with multiple Boolean expressions.
+       MC/DC is a testing strategy that goes further than condition coverage by ensuring that each condition in a
+       decision has been tested for tru and false, and that each condition independently affects the outcome of the
+       decision.
+    6. path coverage: This type of testing considers all possible paths that can be taken in the source code.
+        1. path coverage measure: C = (P / T) * 100%
+            - C: path coverage
+            - P: number of executed paths
+            - T: total number of paths
+        2. There are more paths than branches. The problem is that the number of paths grows exponentially with the
+           number of branches. So it is impossible to test all paths.
+        3. path coverage criteria:
+            - all paths: test all paths
+            - partition infinite set of paths into finite number of classes, by limiting the number of traversal of
+              loops, the length of the paths to be trancersed and the dependencies among selected paths.
+            - boundary interior path coverage: each path up to the first repeated node must be executed at least once.
+            - Loop boundary coverage: each loop body must be iterated zero times, one time and more than one time at
+              least once.
+    7. data flow coverage: The intuition is statements interact through data flow, value computed in one statement and
+       used in another. A bad value computation revealed only when it is used.
+        - All DU pairs: Each DU pair is exercised at least once.
+        - All DU paths: Each simple(non looping) DU path is exercised at least once.
+        - All definitions: For each definition, some DU pair is exercised at least once.
+        - Arrays and pointer are critical for data flow analysis.
+            - under-estimation of aliases -> some DU pairs are missed
+            - Over-estimation of aliases -> may introduce infeasible paths.
+
 7. Model-based testing - Explain the principles of model-based testing. Explain path-
    insensitive and path-sensitive state machine coverage criteria. Discuss coverage criteria for
    decision structures and grammars.
 
+    1. principle: Devise test cases to check actual behavior against behavior specified by the model. The coverage is
+       similar to structural testing, but applied to specification and design models.
+    2. State coverage: every state in the model should be visited at least once.
+    3. Transition coverage: every transition in the model should be visited at least once.
+    4. Path insensitive: Transition coverage assumes that transitions depend only on current state, note on path to
+       reach the state.
+    5. Path sensitive: Transition coverage assumes that transitions depend on the path to reach the state.
+    6. path sensitive criteria:
+        - Single state path coverage: Traverse each subpath that reaches states at most once.
+        - Single transition path coverage: Traverse each subpath that reaches thrasitions at most once.
+        - Boundary interior loop coverage: Traverse each distinct loop the minimum, an intermediate and the maximum or a
+          large number of times.
+    7. Decision structure coverage: The coverage of decision structures is based on the decision outcomes.
+        1. Basic condition coverage: a test case for each column
+        2. Compound condition coverage: a test case for each possible combination of basic conditions.
+        3. Modified condition/decision coverage: add columns that differ in one input row and in outcome, merge
+           compatible columns. A test case specification for each column.
+    8. Grammar based testing
+        1. Test cases and strings are generated from the grammar
+        2. Production coverage: each production must be used at least once.
+        3. Boundary condition coverage: each recursive production must be used (min, min+1, max-1, max) times.
+    9. Grammar vs. Combinatorial testing
+        1. combinatorial testing: good for mostly independent parameters. A few constraints are ok, but complex
+           constraints are hard.
+        2. Grammar testing: good for sequences and nested structure. Relations among different parts may be difficult to
+           describe and exercise systematically.
 8. Object-oriented testing - Explain the principles of testing of object-oriented software, at
    the unit and integration level. Discuss structural coverage criteria for intra- and inter-class
    testing. Discuss the issues of test oracles, polymorphism and exception handling.
