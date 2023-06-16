@@ -315,9 +315,9 @@
 
    10. Pairwise testing
 
-   It is a kind of category-partition testing but it uses a different methods when introducing constraints which is
-   called pairwise combination. It generate combinations that efficiently cover all pairs of choices. Because most
-   failures are triggered by single values or combinations of a few values.
+       It is a kind of category-partition testing but it uses a different methods when introducing constraints which is
+       called pairwise combination. It generate combinations that efficiently cover all pairs of choices. Because most
+       failures are triggered by single values or combinations of a few values.
 
    11. N-way wise testing: similar to pairwise testing. Instead of focusing solely on pairs of parameters, N-way
        testing aims to create test cases that cover all possible combinations of values for a specified number of
@@ -417,20 +417,121 @@
         1. Test cases and strings are generated from the grammar
         2. Production coverage: each production must be used at least once.
         3. Boundary condition coverage: each recursive production must be used (min, min+1, max-1, max) times.
-    9. Grammar vs. Combinatorial testing
-        1. combinatorial testing: good for mostly independent parameters. A few constraints are ok, but complex
-           constraints are hard.
-        2. Grammar testing: good for sequences and nested structure. Relations among different parts may be difficult to
-           describe and exercise systematically.
+   9. Grammar vs. Combinatorial testing
+       1. combinatorial testing: good for mostly independent parameters. A few constraints are ok, but complex
+          constraints are hard.
+       2. Grammar testing: good for sequences and nested structure. Relations among different parts may be difficult to
+          describe and exercise systematically.
 8. Object-oriented testing - Explain the principles of testing of object-oriented software, at
    the unit and integration level. Discuss structural coverage criteria for intra- and inter-class
    testing. Discuss the issues of test oracles, polymorphism and exception handling.
-
+    1. object-oriented testing: For an object software:
+        - unit: single class
+        - unit testing: intra-class testing
+        - integration testing: inter-class testing
+    2. intra-class testing:
+        - basic idea:
+            - Object have a state
+            - Methods calls are state transitions
+            - Test cases are sequences of method calls.
+            - The state machine can be derived from specification and code.
+        - Intra-class structural testing:
+            - As for procedural software, start with functional testing, then complete with structural testing.
+            - Use control flow graph: each metho + node for class = edges -> method, method -> class => control flow
+              graph.
+    3. Inter-class testing:
+        - basic idea:
+            - test interaction between classes
+            - bottom-up integration, according to "depends" relation.
+            - use/include hierarchy:
+                - A uses B: A makes method calls on B
+                - A includes B: A objects include reference to B objects ignore inheritance, abstract classes.
+            - Bottom-up integration, clustering.
+        - Inter-class structural testing: DU pair structural testing:
+            - Working bottom-up in dependencies hierarchy
+            - inspectors:
+                - inspectors: use, but do not modify object state.
+                - modifiers: modify, but no use object state.
+                - inspector/modifiers: bot use and modify object state.
+                - treating a whole object as variable.
+                - Treat inspector calls as uses and modifier calls as defs.
+    4. Test oracles:
+        - Test oracles must be able to check the correctness of a test execution
+            - correct output: ok, can be checked
+            - correct new state: not accessible, encapsulation
+        - Accessing the state:
+            - Intrusive approach: use language constructs(C++ friend classes), add inspector methods. -> breaks
+              encapsulation, may produce undesired results.
+            - Equivalent scenarios approach: generate equivalent sequences of methods calls, compare the final states of
+              the objects.
+    5. Polymorphism: Combinatorial explosion problem. When testing a child class, we would like to test only what is
+       needed not what has been tested in parent classes.
+        - Track test suites and test executions
+            - determine which new tests are needed.
+            - determine which old tests must be re-executed.
+        - New and change behavior
+            - New methods must be tested
+            - Re-defined methods must be re-tested, but we can partially reuse the test suites.
+            - unchanged methods need not be re-tested.
+        - Executing test cases is usually cheap, it may be simpler to re-execute the full parent test suite.
+    6. Exception handling:
+        - Exception: implicit control flows and they may be handled by different hanlers.
+        - Impractical t treat exceptions like normal flow, as there are every test exception source times every test
+          exception handler.
+        - Program error exceptions: test to prevent them from happening instead of handling them.
+        - Explicit throws: test with respect to every handler on call stack.
+        - Local exception handlers: test the exception handling code.
+        - Non-local exception handlers: difficult to determine all <source, handler> pairs.
+            - Design rule: if a method propagates an exception, the method call should have no other effect.
+            - test all sources, all handlers but not all pairs.
 9. Fault-based testing - Explain the principles and assumptions of mutation testing. Give
    examples of mutation operators. Discuss fault-based coverage measures. Discuss ways
    to reduce the cost of mutation testing. explain fault estimation using seeded faults or
    independent test groups.
-
+    1. Principles: a mutation is a syntactic change, for example, change a + b to a - b.
+        - A mutant is a copy of a program with a single mutation.
+        - Run test suite on all the mutants
+        - A mutant is killed if the fails on at least one test case.
+        - If many mutants are killed then the test suite is effective at finding real faults.
+    2. Assumptions:
+        - Competent program hypothesis: Programs are assumed to be nearly correct. Real faults are small variations from
+          the correct program. Mutants are reasonable models of real real faults.
+        - Coupling effect hypothesis: Tests that find simple faults also find more complex faults. Even if mutants are
+          only only simple faults, a test suite that kills mutants is good at finding complex faults too.
+    3. examples:
+        - crp: constant for constant replacement: replace a constant by another constant.
+        - ror: relational operator replacement: replace a relational operator by another one. x <= 5 => x < 5
+        - vie: variable initialization elimination: remove initialization of a variable.
+    4. Mutation analysis:
+        - steps: select mutation operators, generate mutants and distinguish mutants.
+        - Mutation score: number of killed mutants / number of mutants.
+        - Mutation score is a measure of test suite effectiveness.
+        - How mutants survive:
+            - The mutant is equivalent ot the original program.
+            - the test suite is inadequate.
+              Adding a test case for just this mutant is a bad idea. We care about the real bugs, not the fakes.
+    5. discuss ways to reduce the cost of mutation testing
+        1. Equivalent mutants are hard to determine and there are lots of mutants.
+            - high cost
+            - grows with the square of the program size.
+            - running each test case on each mutant is expensive.
+        2. Weak mutation: observe states of program and mutant, kill as soon as a difference is found
+        3. Meta mutant: mutant with several seeded faults, with mechanism to activate them. Check several mutants at
+           once.
+        4. Statistical mutation: create a random sample of mutants.
+        6. Fault estimation:
+            - seeded faults: inject faults into the program, run test suite, count the number of faults found.
+                1. Intentionally seed S faults into the program.
+                2. Run the tests. s discovered seeded faults and n discovered natural faults.
+                3. Hypothesis: n / N = s / S
+            - independent test groups: run test suite on each group of faults, count the number of faults found.
+                - It is used when we don't know typical faults.
+                - split tests in two groups E1 and E2
+                - n1 faults detected by E1
+                - n2 faults detected by E2
+                - n12 faults detected by both E1 and E2
+                - N faults in the program
+                - Hypothesis: n1 / N = n12 / n2
 10. Test execution I - Describe the principles of scaffolding for test execution. Discuss
     different types of test oracles. Describe the nature and objectives of unit and integration
     testing activities. Discuss and compare different integration testing strategies.
