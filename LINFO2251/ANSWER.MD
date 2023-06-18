@@ -54,6 +54,7 @@
       reflects a system conforms to its specification.
     - **software development process**: It is a set of activities, methods, practices, and transformations that people
       use to develop software.
+
         1. **Requirements**: what the system should do
         2. **Specification**: how the system should do it
         3. **Design**: how to build the system
@@ -78,7 +79,7 @@
         - Testing: Verification in this phase includes ensuring that the testing procedures are correctly implemented,
           which validation involves system, integration and acceptance testing to ensure the software system functions
           are expected in an integrated environment.
-        - Deployment: verification ensures the proper deployment of the software in the live environment. Valudation at
+        - Deployment: verification ensures the proper deployment of the software in the live environment. Validation at
           this state checks that the system performs as expected in the live environment.
 
     - **Different types of software quality assurance activities.**
@@ -93,17 +94,18 @@
             - It takes a considerable amount of time and effort.
             - Re-inspecting a changed component can be expensive.
             - Used primarily where other techniques are inapplicable or where other techniques do not provide sufficient
-              sufficient coveraeg.
+              coverage.
         - Automatic static analysis
             - More limited in applicability. It is applicable to formal models, not to natural language documents.
             - It is applied when substituting machine cycles for human effort to make them more cost-effective.
         - Model checking
-            - It exhaustively explores all possible states of a mode. It can be used to check state conditions, temporal
-              logic and compare models.
+            - It exhaustively explores all possible states of a model. It can be used to check state conditions,
+              temporal logic and compare models.
         - Theorem proving: It is used to prove specifications and assumptions imply requirements. It can be implemented
-          by using built-in thories, inference rules and decision procesures.
+          by using built-in theories, inference rules and decision procedures.
 
     - **Software analysis principles**
+
         - Partition
         - visibility
         - feedback
@@ -111,16 +113,15 @@
         - redundancy
         - restriction
 
-3. Behaviour models - Define state models. Describe control flow graphs and their con-
-   stituents. Describe call graphs and discuss context-sensitive analysis. Describe finite state
-   machines and discuss abstraction.
+3. Behavior models - Define state models. Describe control flow graphs and their constituents. Describe call graphs and
+   discuss context-sensitive analysis. Describe finite state machines and discuss abstraction.
 
     - **State models**: A model is an abstraction of the system. A state model is a model that describes the system in
       terms of its states and transitions between states.
     - **Control flow graphs**: A control flow graph is a directed graph that represents the flow of control in a
       program. It is a directed graph whose nodes are basic blocks and whose edges are control flow edges.
-        - **Basic blocks**: It is a maximal program region with a single entry and single exit point. It often contains
-          several statements. One statement can be splitted in several blocks.
+        - **Basic blocks**: It is a maximal program religion with a single entry and single exit point. It often
+          contains several statements. One statement can be splitted in several blocks.
         - **Edges**: It is a representation of almost all paths that might be traversed through a program during its
           execution. But it also ignores some flows which are called intra-procedural, e.g. exceptions, interrupts, etc.
         - **Nodes**: Represent regions of source code. They are connected by edges.
@@ -274,7 +275,7 @@
     1. Test case: a set of inputs, execution conditions and a pass/fail criterion.
 
     2. Test suite: a set of test cases.
-
+       modular
     3. Test or test execution: the activity of executing test cases and evaluating their results.
 
     4. Test case specification: a requirement to be satisfied by one or more test cases.
@@ -519,7 +520,7 @@
         3. Meta mutant: mutant with several seeded faults, with mechanism to activate them. Check several mutants at
            once.
         4. Statistical mutation: create a random sample of mutants.
-        6. Fault estimation:
+        5. Fault estimation:
             - seeded faults: inject faults into the program, run test suite, count the number of faults found.
                 1. Intentionally seed S faults into the program.
                 2. Run the tests. s discovered seeded faults and n discovered natural faults.
@@ -535,41 +536,653 @@
 10. Test execution I - Describe the principles of scaffolding for test execution. Discuss
     different types of test oracles. Describe the nature and objectives of unit and integration
     testing activities. Discuss and compare different integration testing strategies.
+    1. Scaffolding: code produced to support development activities especially testing. Not part of the product. May be
+       temporty.
+        - Test harness: envrionment in which the component is tested. for example: Software simulation of a hardware
+          device.
+        - Test driver: calls the component. Applies the test cases. A main program for running a test.
+        - Test stubs: called by the component. Substitutes for the called components.
+
+       The scafolding must provide:
+        - Controllability: allow to execute test cases.
+        - Observability: allow to judge the outcome of the test.
+    2. Different types of test oracles:
+        - Did the test case succeed or fail? Oracle: software that determines whether a test passed or failed.
+        - Better than manual checking. More efficient, reliable and capable(large data sets).
+    
+       Oracles should ideally report Pass for all executions and may report PASS for some incorrect executions.
+    
+       1. Comparison-Based Oracle: Oracle compare actual to expected output, reports if (actual == expected) then pass else fail. Fine
+          for a small number of hand-generated test cases. E.g. JUnit.
+       2. Self-Checked as oracle: Oracle as self-checks in the program judge correctness. E.g. assert in Java.
+          Usable with large, automatically generated test suites. Often only a partial check.
+          
+          For example, there is a test case for quick sort, the self-check is to check if the array is sorted, but it does not check the items in the array.
+       3. Assertions as oracle:
+          - Invariants on data structures e.g. assert 0 <= size size <= a.length.
+          - Pre- and Post-conditions: e.g. assert k!=null; v= dict.get(k); assert dict.contains(k, v)
+          - may need to deal with quantifiers. Implement as iteration => does not scale well or sample some elements.
+       4. Capture and Replay: 
+          - Capture: a manually run test case, sequence of inputs and outputs.
+          - Replay: it automatically wit a comparison-based oracle and compare actual to captured output.
+    3. Unit testing: AKA module testing, component testing
+       
+        - Testing: feed inputs, check valid outputs
+        - Code review, analyses: check internal data structures, logic.
+    4. Integration testing: Assemble components together and check correct interaction.
+    5. Function Testing: The whole system. Check that the behavior conforms to functional requirement specifications.
+    6. Performance Testing: The whole system. Check that the behavior conforms to non-functional requirement specifications.
+    7. Acceptance Testing: The whole system. Check that the behavior conforms to the customer requirement documentation.
+    8. Regression Testing: 
+       - Regression = loss of correct functionality after a change, like adding new features, changing existing features, fixing bugs.
+       - Regression testing: re-executing tests after any change to detect regressions.
+       - Can be a major cost of software maintenance, sometimes much more than making the change.
+    9. Discuss different integration testing strategies:
+       Integration testing is a phase in software testing in which individual software modules are combined and tested as a group. It's conducted to expose defects in the interaction between integrated units. The aim is to ensure that, together, the different parts of the software operate correctly. Below are some common strategies for integration testing:
+    
+       - Big Bang Approach: In this strategy, all the modules are integrated together and tested as a whole. The advantage is that everything is tested thoroughly in one cycle, but the disadvantage is that isolating defects can be very challenging because everything is tested together.
+    
+       - Top-Down Approach: This approach begins with high-level modules and incrementally incorporates lower-level modules. Stubs, which are dummy modules, are used to simulate lower-level modules that are not yet integrated. This approach is beneficial as it allows early observation of high-level functionality. However, the need for many stubs may be a drawback.
+    
+       - Bottom-Up Approach: This approach starts with the low-level modules and progresses to higher-level modules. Drivers, which are dummy modules, are used to simulate higher-level modules. The advantage is that the detailed functionalities are tested thoroughly, but the drawback is that the higher-level overview is not available until later in the process.
+    
+       - Sandwich (or Hybrid) Approach: This strategy is a combination of top-down and bottom-up approaches. The system is viewed as having three layers: top, middle, and bottom. The top-down approach is used for the top and middle layers, and the bottom-up approach is used for the middle and bottom layers. The advantage is that it utilizes the benefits of both top-down and bottom-up approaches.
+    
+       - Incremental Integration Testing: In this strategy, the modules are integrated and tested one at a time. The benefits include the ease of isolating errors and the ability to do regression testing every time a new module is added. The disadvantage is that it requires a lot of time and resources, as it involves multiple stages of integration and testing.
 
 11. Test execution II - Describe the nature and objectives of system, acceptance and regres-
     sion testing activities. Explain regression test selection and prioritization.
+
+    1. System testing: System testing is a level of software testing where the complete and integrated software system
+       is tested. It verifies that the system meets its requirements as a whole and checks
+       both the functional and non-functional aspects of the system. This level of testing is important because it
+       checks end-to-end working of the software and validates
+       whether the system behaves as expected or not. The main goal is to evaluate the system's compliance with the
+       specified requirements.
+    2. Acceptance testing: Acceptance testing is a leve of software testing where a system is tested acceptability. The
+       purpose of this test is to evaluate the system's compliance
+       with the business requirements and to assess whether it is ready for delivery or not. User Acceptance Testing is
+       one of the most common types of acceptance testing, where the users test the software to make sure it can handle
+       required tasks in real world scenarios, according to specifications. Acceptance testing has a user-centric focus
+       and the primary aim is to build confidence in the system and gain customer approval.
+    3. Regression Testing: Regression Testing is a type of testing carried out to ensure that changes have not
+       introduced new faults in existing developed software. It is performed after modification of a system, comonent,
+       or a group of related measures. Regression testing ensures that previously developed and tested software still
+       functions the same way after it is interfaced with new or altered components. Its primary objective is to catch
+       defects that may have been inadvertently intriduced into a new build or release.
+    4. Explain regression test selection
+        - Test case selection: do not execute some test cases when test cases are expensive to execute. Execute only
+          test cases related to elements that were affected by the change.
+        - Code-based selection: only execute test cases that execute changed or new code. Independent: a test case can't
+          find a fault in code it does not execute.
+        - Specification-based selection: only execute test cases that test new and changed functionality. Independent: a
+          test case that is not for a changed feature X might find a but in feature X.
+    5. Regression prioritization:
+        - Execute some test cases less often when a very large test suite can't be executed every day.
+        - Basic idea:
+            1. Execute all test cases, eventually
+            2. Execute some sooner than others.
+        - Possible priority schemes:
+            1. Specification-based: priority to test cases related to changed and added features.
+            2. Round robin: Priority to least-recently-run test cases.
+            3. Track record: Priority to test cases that have detected faults before. They probably execute code with a
+               high fault density.
+            4. Structural: Priority to executing elements that have not been recently executed.
 
 12. Symbolic execution - Describe the principles of symbolic program execution. Describe
     the principles of program verification using symbolic execution. Discuss contract-based
     reasoning on procedures and data structures.
 
+    Execute the program with symbolic values. Variables receive symbolic values. execution paths accumulate symbolic
+    conditionss -> bridges program behavior to logic.
+    1. Values are symbolic expressions
+    2. Executing statements computes new expressions
+    3. For branching statements, both brnaches are possible. Need to record the condition for the execution of each
+       branch.
+    4. Path accumulate conditons which may become extremely complex. We can simplify it by replacing a complex
+       conditions P with a weaker W such that P => W. W des
+       describes the path with less precision. (W is a summary of P)
+    5. To reason about program behavior in a loop, we can plave an invariant. Each time program execution reaches the
+       invariant W, we can weaken the execution conditon P to w
+        - Check that P => W
+        - Substitute W for P
+    6. If:
+        - Every loop contains an invariant
+        - There is an assertion at the beginning of the program
+        - There is an assertion at the end of the program
+
+         Then every possible execution path is a sequence of segments from one assertion to the next.
+         
+            - Precondition: assertion at the beginning of a segment
+            - Postcondition: assertion at the end of the segment
+    
+     Describe the principles of program verification using symbolic execution
+    
+    1. verify for each basic path
+       1. Starting from the precondition
+       2. Execute the program segment
+       3. The post-condition holds at the ends.
+    2. Then the execution of any path is correct
+    
+    Discuss contract-based reasoning on procedures and data structures.
+    
+     - On Procedure: Compositional reasoning. Follow the hierarchical structure of a program:
+       - at small scale within a single procedure
+       - at large scale (across multiple procedures)
+       - Hoare triple: [pre] block [post]
+            - if pre is satisfied at the entry to the block, then the post should be satisfied after execution of the block.
+            - summarize the effect of a block of program by a contract
+            - Prove that block satisfies pre/post then use the contract wherever the block is used.
+     - On data structure: Data structure module = data + operations = variables + procedures
+       - Contract 
+         - Abstraction function "abs": relates data structures D to an abstract model D'. Like Directory -> <key, value> map
+         - Structural invariant 'ok': data structure characteristics that must be maintained. Dictionary -> OK. For each key, there is at most one value.
+
 13. Program analysis - Describe the principles of program inspection, static and dynamic
     program analysis. Explain symbolic testing and its application to pointer analysis. Explain
     dynamic analysis and its application to lockset analysis.
+    1. Describe principles of program inspection:
+
+       Systematic, detailed review of artifacts to find defects and assess quality.
+
+        1. Find and remove defects
+        2. Incentive to produce good code
+        3. Share coding norms and practices
+        4. Familiarize new staff with the code
+
+       Team: the programmers + experts + checklist
+
+       With different perspectives: junior and senior engineers, test, mangers, analysts and architects.
+
+       Moderator: external senior manager.
+    2. Static program analysis: examine source code. Examine the complete execution space but may lead to false alarms.
+    3. Dynamic program analysis; examine execution traces. No infeasible path problem but can't examine the execution
+       space exhaustively.
+    4. Symbolic testing, also known as symbolic execution, is a method used in software testing where programs are
+       executed with symbolic rather than actual values. This method is used to explore various possible execution paths
+       and find bugs or vulnerabilities in the system.
+
+       Instead of using specific inputs, symbolic execution uses symbols. Each decision point (like a conditional
+       statement) creates a branch where each path represents an execution flow that is possible with certain inputs. An
+       advantage of symbolic execution is that it allows for the exhaustive testing of all possible execution paths, not
+       just those that are typically reached with traditional testing.
+
+       One application of symbolic execution is in pointer analysis. Pointer analysis is the process of determining at
+       compile time what values of pointers can point to. By determining these potential values, we can predict how a
+       program may behave, identifying potential bugs or vulnerabilities. Symbolic execution can help by simulating how
+       pointers would behave under different conditions, thus improving the accuracy and effectiveness of the pointer
+       analysis.
+
+       Dynamic analysis, on the other hand, is a testing method where the program is executed to study its behavior.
+       Unlike static analysis, which evaluates the code without running it, dynamic analysis involves executing the
+       software system.
+
+       area where dynamic analysis can be useful is in lockset analysis. This is a technique used to identify potential
+       synchronization issues in multithreaded programs, such as deadlocks or race conditions. The lockset algorithm
+       works by maintaining a set of locks (the "lockset") that should be held whenever a given shared variable is
+       accessed.
+
+       When a thread acquires a lock, it's added to the lockset. When it's released, it's removed. If a shared variable
+       is accessed while the lockset is empty, it may indicate a potential data race condition.
+
+       Dynamic analysis allows for real-time tracking of which locks are currently held, and by which threads, during
+       the actual execution of the program. By using this real-time information, it's possible to more accurately
+       identify potential issues and better understand the behavior of complex multithreaded systems.
 
 14. Finite state analysis I - Describe the principles of finite-state analysis. Define safety and
     liveness properties and discuss their verification. Discuss the model size and correspondence
     problems.
 
+    Describe the principles of finite-state analysis.
+
+    Finite state verification: Prove some significant properties of a finite model of the infinite execution space.
+    It is a technique from symbolic execution and formal verification: Finite models of the potentially infinite state
+    spaces.
+    1. The iterative process:
+        - Prepare a model and specification
+        - Repeat:
+            1. Attempt verification
+            2. Receive reports of impossible or unimportant faults
+            3. Refine the specification/model
+        - Until no impossible or unimportant faults remain.
+          It is a complementary to testing. It can find bugs that are extremely hard to find by test, especially
+          concurrency bugs.
+
+    Define safety and liveness properties and discuss their verification.
+
+    Safety:
+    1. Bad things never happen
+        - invariant violation, assertion violation
+        - Mutual exclusion: two threads never enter the critical section at the same time.
+    2. specify with assert
+    3. Verify with reachability analysis.
+
+    Liveness:
+    1. Good things eventually happen
+        - response: if I push the button, eventually the evaluator should arrive
+        - fairness: all enabled threads get executed
+        - termination: the program terminates
+    2. specify with temporal logic
+    3. verify with automata, repeated reachability analysis(more expensive)
+
+    Discuss the model size and correspondence problems.
+
+    The size of the state model growth very quickly so the size of the model can become too large to handle. # of
+    process ^{# of states}.
+
+    The correspondence problem:
+    1. Model extracted from the program may not correspond to the program.
+        - verify the extraction procedures. The challenge is choose the right level of abstraction.
+            - all details: state space explosion
+            - missing details: false alarms
+
+    - Program generated from the model
+        - verify the generation procedures
+            - Most applicable to code generation from models
+    - Model written by hand
+        - check conformance by model-based testing.
+
 15. Finite state analysis II - Explain intensional representations for finite state analysis and
     describe the use of binary decision diagrams. Discuss iterative model refinement. Describe
     the principles of data model verification.
+
+    Explain intensional representations for finite state analysis and describe the use of binary decision diagrams.
+
+    Enumerating all reachable states cost a lot, it limits factor of finite state verification. The alternative is to
+    use intensional representations which
+    describes sets of reachable states without enumerating each one individually.
+
+    1. Intentional representations may be more compact than the set they represent.
+    2. Unstructured, irregular sets will necessarily have a larger intensional representation
+    3. Information theory: representing subsets of N elements requries O(N) in average.
+
+    Explain iterative model refinement.
+
+    Construction of finite state models, we often start with a unsatisfactory model. The model will report unfeasible
+    failures or
+    it exhaust the resources before producing any result. We can refine the model by make the model more abstract or
+    more concrete.
+
+    Discuss data model verification.
+
+    Many information systems are characterized by
+    1. simple program logic and algorithms
+    2. Complex data structures.
+
+    A key element is the data model = set of data structures + set of operations on them.
+
+    challenge: prove that:
+    1. individual constraints are consistent.
+    2. together they ensure the desired properties of the system as a whole.
+
+    In a complex data models, we use the same general verification techniques as for program verification:
+    1. systematic analysis of models
+    2. thorough testing is impractical
+
+    The difficulty is to consider all the possible combinations of choices in a complex data model.
 
 16. Software measurement: size - State the general principles of software measurement.
     Discuss size measurement metrics based on lines of code. Explain functional size measure-
     ment using function points.
 
+    State the general principles of software measurement.
+
+    Principles:
+    1. Software measurement: deriving a numeric value of a property of a software product or a process to allow
+       comparison.
+    2. Measurement: mapping from the empirical world to the mathematical world.
+    3. metrics: a means of measurement of a property of a software product or a process.
+    4. Objectives: understand, control, improve the quality of a software.
+    5. Attributes:
+        1. Internal(structural): size, complexity
+        2. External(behavioral): quality, reliability
+
+    Discuss size measurement metrics based on lines of code.
+
+    A size measurement should be non-negative, zero iff empty and additive.
+
+    There are different size metrics: line of code, number of bytes, number of modules.... The choice of measure is made
+    according to the question
+    to be answered.
+
+    LOC: line of code -> How to count them? What about blank lines? comments? data declarations? several instructions on
+    a line?
+
+    1. NCLOC: No Commented LOC. no commented line, no blank line, everything else counts 1 per line.
+    2. CLOC: commented LOC, Line comments count 1 per line, everything else counts 0 per line.
+    3. LOC = NCLOC + CLOC
+
+    What count? What files?
+
+    what files?
+    Program code, test drivers, automatically generated code, imported code.
+
+    what code?
+
+    - Executable statement: non blank, non comments, no data nor headers, 1 per statement.
+
+    - Delivered source instruction: No blank, no comment, 1 per statemetn or data declaration.
+
+    *Explain functional size measurement using function points.*
+
+    Function point: measure amount functionality. Useful to :
+    1. to bill the development
+    2. estimate the development effort and duration
+    3. to express defect density
+
+    For example:
+
+    The checker accepts as input a document file and an optional personality directory fie. The checker lists all words
+    not contained in either of these files.
+    The user can query the number of words processed and the number of spelling errors found at any stage during
+    processing.
+
+    1. Point A: Number of items
+        - external files(file names, menu selections, etc.)
+        - external output(report messages, etc.
+        - external inquiries(interactive inputs requiring an immediate response)
+        - external files(interfaces to other applications)
+        - internal files(master files in the system)
+    2. Point B: Complexity of items
+        - UFC: Unadjusted Function Count
+        - UFC = sum of (number of items * complexity of items)
+    3. Point C: Technical complexity
+        - Technical complexity(TFC) = 0.65 + 0.01 * sum(Fi)
+        - Fi: 14 general system characteristics
+        - FP = UFC * TFC
+        - FP: Function Point
+
 17. Software measurement: structure - Describe the principles of structure measurement.
     Describe hierarchical measures based on prime decomposition of control flow graphs. Define
     cyclomatic complexity measure. Discuss design-level, inter-modular complexity measures.
+
+    1. Principles of structure measurement: The size doesn't tell us everything, the structure play a role very
+       important in capturing the complexity of the product.
+       The structure measurement is applicable to design or code seen as a graph.
+    2. Two perspectives:
+        1. Control flow graph
+        2. Data flow graph
+    3. structure attributes:
+        - complexity: complicatedness of the connections between elements in a system model
+        - Length: distance between elements in a system model
+        - Coupling: links to/from elements outside the module.
+        - cohesion: connection between internal elements.
+    4. Control flow graph: a graph with distinguished start and stop nodes. We want measures that are independent of a
+       particular view of the graph.
+    5. Prime decomposition: A structured flow graph can be decomposed into a set of prime graphs. The decompositioin is
+       unique, can be done automatically and allows to check whether a program is S-structured.
+       Given a family S of prime flowgraphs, a flowgraph is S-structured iff it is generated from S by a finite number
+       of sequencing and nesting.
+    6. prime flow graph: a graph that cannot be decomposed by sequencing and nesting.
+
+    Hierarchical measures based on prime decomposition of control flow graphs.
+
+    Measures defined on the prime decomposition tree. For example: depth of nesting. more generally:
+    1. M1: M(F) for each F in S
+    2. M2: L(F1;...;Fn) from M(Fi)
+    3. M3: M(F(L1;...;Ln)) from M(Li)
+
+    Define cyclomatic complexity measure:
+
+    1. Basic set: a maximal set od linearly independent paths.
+    2. Cyclomatic number: the number of path in a basis set. v(CFG) = #edges - #nodes + 2 = #decisions + 1
+
+    Descuss design level, inter-modular complexity measures.
+
+    So far we have taked about intra-modualr measures. Now we will present inter-modulare measures. We thus consider
+    design dependency graphs: graph representing
+    the dependency between modules. Inside modules we have data dependency graphs.
 
 18. Software measurement: quality - Describe the principles and elements of quality
     models. Discuss defect-based quality measures. Discuss usability, maintainability and
     security measures.
 
+    1. The question here is: Does a product have desirable attributes? (The product can be a document, a file, a
+       system,... which
+       an attribute can be completeness, consistency, reliability, ...). Product quality models give a hierarchical
+       nomenclature of product quality characteristics.
+    2. A quality model has different element:
+        - high-level user's perspective(quality factor), for example: maintainability, usability
+            - low-level quality criteria(quality sub-factor), for example: correctness, Testability, Expandability, ...
+                - Direct measureable(metric): Fault counts, Degree of testing, effort, change counts.
+    3. There are different models such like Boehm or McCall's quality model which are fixed models.
+    4. We can also define our own models:
+        - Keep general philosophy of quality models(factor, criteria, metrics)
+        - Select attributes suited for a particular product
+            - Discuss with customers, users
+            - Possibly from some fixed model
+        - Refine to criteria and metrics
+
+    Discuss defect-based quality measures.
+
+    We take a narrow view:
+    1. quality = lack of defects
+    2. Defects = errors, faults and failures.
+
+    There are know defects and latent defects.
+
+    Defect density = # know defects / size of product
+
+    From this equation, one need to define what counts as defects and what counts as size. It is also important to not
+    confuse with defect rate which is
+    relative to time and not size. It is also important to not confuse with defect rate which is relative to time not
+    size.
+
+    There are different tyoe of defect based measures, another example:
+
+    Spoilage = time to fix defects / time to develop product
+
+    *Discuss usability, maintainability and security measures.*
+
+    **usability**
+
+    The degree to which a product or system can be used by specified users to achieve specified goals with
+    effectiveness, efficiency and
+    satisfaction in a specified context of use.
+
+    Example: User-friendliness(easy to learn, use, remember) or user satisfaction.
+
+    - Effectiveness: % of correctly completed tasks. User recall = remember information provided (remember information
+      provided)
+    - Efficiency: time to complete a task, input rate.
+        - Time efficiency: effectiveness / time to complete a task
+        - Productive period = productive time / task time
+        - relative user efficiency = user efficiency / expert efficiency
+        - Satisfactions: quersionnaire, interviews, ...
+    - Accessibility: disabilities (visual, hearing, physical)
+    - Universality: cultural norms, naming conventions, ...
+    - Trustfulness: trust of users in the system
+
+    Internal elements related to usability
+    - good use of menus and graphics
+    - informative error messages
+    - Help functions
+    - Consistent interfaces
+    - Well-structured manuals
+
+    Structure can also be measured, in particular, text structure affects readability and comprehensibility. But size
+    and structure
+    are poor measures of quality.
+
+    **Maintainability**
+
+    The degree of effectiveness and efficiency with which a product or system can be modified by the intended
+    maintainers. Easy to understand, enhance,
+    and correct. Maintenance can be
+    - Corrective: repair defects
+    - Adaptive: adapt to new environment
+    - Perfective: improve performance, maintainability, ...
+    - Preventive: prevent future problems
+
+    They apply to code, documentation, specs, design, tests, ... Maintenance is about making changes to the product.
+    There are different maintainability measures:
+    1. Mean time to repair(MTTR): average time to implement a change and resotore the system to working order, can be
+       split in different measure times:
+        - Problem recognition time
+        - Administrative delay time
+        - Maintenance tools collection time.
+        - Problem analysis time
+        - Change specification time
+        - Change time(including testing and review)
+    2. Change time / number of changes
+    3. Number of unresolved defects
+    4. Time spent on unresolved defects
+    5. % changes that introduce new defects
+    6. number of modules modified for a change.
+
+    Concerning internal elements related to maintainability,
+    - Structural complexity: this is more an indication, not really a measure. Used in correlation with external
+      measure.
+    - Readability: for texts, we can talk about the Fog index.
+
+    **Security**
+
+    The degree to which a product or system protects information and data so that persons or other products or systems
+    have the degree of data access
+    appropriate to their types and levels of authorization. No competent programmer hypothesis: assume that attackers
+    try to overcome security protection
+    and hide their activities.
+
+    Security measures:
+
+    1. Risk: impact * likelihood * Threat * vulnerability
+    2. Common vulnerability scoring system(CVSS) gives a metric between 0 and 1 based on 6 measures
+        - Access vector: how remote an attacker can be
+        - Access complexity: How complex the attack needs to be
+        - Authentication: How many authentication steps are needed
+        - Confidentiality impact: Impact on system
+        - Integrity impact: imapct to system integrity
+        - Availability impact: reduced performance, shutdown.
+    3. Bayesian analysis: based on attack probabilities and costs
+    4. # of vulnerabilities / # of defects
+
+    Internal measures: number of entry points, exit points and data channels, persistent data items.
+
 19. Software reliability - Describe the model of reliability based on failure rates. Define
     failure probability functions, reliability, maintainability, availability, MTTF and MTTR.
     Describe the case of constant failure rates.
 
+    Reliability is a key quality attribute: top-level in all quality models and the most extensively studied.
+    Reliability has objectives:
+
+    - Measure failure
+    - Predict future failures from past failures
+    - Reliability growth: predict reliability from the past faults found and fixed
+    - Want to answer a basic question: When will the system fail?
+    - software failures are different from hardware failures; A component may fail due to physical wear. The probability
+      that the component will fail
+      at time t is given by the probability density function f(t).
+
+    **Failure probability functions**
+
+    - Failre probability density function is the probability that a failure will occur between time t and time t + dt.
+      f(t)dt = Prob(failure between t and t + dt)
+    - Failre probability distribution function is the probability that a failure will occur between 0 and t:
+      F(t) = f(t)dt = Prob(failure between 0 and t)
+    - Reliability: operating without failure for a given time interval. It is time-dependent:
+      R(t) = 1 - F(t) = Prob(no failure between t)
+    - Maintainability: maintenance activity can be carried out within stated time interval, procedures and resources.
+      Also time-depentent:
+      M(t) = Prob(restored before t)
+    - Availability: operation without failure at a given point in time, time-independent:
+      A = Prob(no failed) = MTTF / (MTTF + MTTR)
+    - MTTF: Mean time to failure is the average time before failure occurs. It means reliability.
+    - MTTR: Mean time to repair is the average time to fix a fault. It means maintainability.
+
+    Describe the case of constant failure rates
+
+    constant failure rate: it is when the software will fail purely randomly independently of the past, no memory. We
+    have a constant probability rate lambda.
+
+    - f(t) = lambda exp(-lambda t)
+    - F(t) = 1 - exp(-lambda t)
+    - R(t) = exp(-lambda t)
+
 20. Failure prediction - Describe the principles of failure prediction systems. Discuss the
     example of the Jelinski-Moranda model. Discuss statistical testing.
+
+    Describe the principles of failure prediction systems
+
+    Given a series of failure times(t1, t2, t3, ..., ti-1) where the fault has been fixed after each failure. The goal
+    of these systems is to predict future
+    failure times Ti, Ti+1,...
+
+    In software, as we fix faults, we expect the reliability to grow.
+
+    The goal of a prediction system is to predict the probability distributions Fi, Fi+1, ....
+
+    A prediction system has three elements:
+
+    1. Prediction model: probability specification of the stochastic process
+    2. Inference procedure: infer unknown parameters of them model from t1, t2, ... , tn-1
+    3. Predictin procedure: combine the model and inference procedure to make predictions about future failure behavior.
+
+    Discuss the example of the Jelinski-Moranda model
+
+    The Jelinski-Moranda model is one of the earliest statistical models for software reliability. Proposed by Z.
+    Jelinski and P.B. Moranda in 1972, it is based on the concept of failure intensity or failure rate, and it assumes
+    that the software failures occur according to a homogeneous Poisson process, which is a kind of statistical model
+    commonly used for describing the probabilistic behavior of systems over time.
+
+    Here are the primary assumptions of the Jelinski-Moranda model:
+
+    Independent Failures: The occurrence of one failure does not affect the probability of the next failure occurring.
+
+    Constant Failure Rate Reduction: After each failure and its subsequent debugging, the failure intensity or rate
+    reduces by a constant factor. This is based on the idea that the removal of a bug makes the software less prone to
+    failure.
+
+    Immediate Debugging: It is assumed that debugging is done immediately after a failure, which is not always practical
+    in real-world scenarios.
+
+    Complete Debugging: The model also assumes that debugging a failure completely eliminates a bug and does not
+    introduce new bugs.
+
+    The Jelinski-Moranda model is often expressed mathematically as:
+    ```scss
+    λ(t) = λ0 (N - n(t))
+    ```
+    where:
+
+    1. λ(t) is the failure intensity at time t,
+    2. λ0 is the initial failure intensity,
+    3. N is the total number of initial faults,
+    4. n(t) is the cumulative number of failures up to time t.
+
+    While the Jelinski-Moranda model provides a good starting point and theoretical foundation for software reliability
+    modelling, its assumptions are oversimplifications of real-world software development scenarios. These assumptions
+    limit its practical application in real-world situations, but many subsequent models have expanded on its principles
+    to provide a more accurate picture of software reliability.
+
+    For example, the Musa-Okumoto model retains the assumption of a homogeneous Poisson process but removes the
+    assumption of a constant failure rate reduction factor. Instead, it uses a logarithmic function to model the
+    reduction in the failure rate over time. Other models, such as the Goel-Okumoto model, use non-homogeneous Poisson
+    processes to better model software failure behavior.
+
+    **Discuss statistical testing.**
+
+    Idea: reliability predictions based on failures occurring during testing. Will this be accurate in typical system
+    usage.
+
+    1. Operational profile: Probability distribution on inputs.
+    2. Statistical testing: select tests according to operational profile.
+        1. Tests focus on more used parts => better observed reliability
+        2. Test reflects usage -> reliability predictions more accurate.
+
+    Operational profiles are difficult to define. A small % of the operational profile may account a larege % of
+    failures.
+
+    Examples:
+
+    1. Airplane: take-off and landing
+    2. Printer: Non-saturated: available, no queue -> print immediately
+        - saturated: queue -> print later (79%)
+        - transitional: busy, no queue -> create queue and add to queue(1%)
+        - Probability of failures: 0.001 per test case.
+
+       To have 50% chances of detecting each fault, we must run:
+        1. non saturated: 2500 test cases
+        2. saturated: 663 test cases
+        3. transitional: 50 000 test cases.
+       
+       Transitional likely the most complex and failure prone.
